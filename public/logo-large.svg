@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="leaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a1a1aa"/>
+      <stop offset="100%" stop-color="#71717a"/>
+    </linearGradient>
+    <linearGradient id="stem" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#71717a"/>
+      <stop offset="100%" stop-color="#52525b"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 荷叶 -->
+  <ellipse cx="100" cy="80" rx="65" ry="55" fill="none" stroke="url(#leaf)" stroke-width="3"/>
+  
+  <!-- 叶脉 -->
+  <line x1="100" y1="80" x2="100" y2="35" stroke="#a1a1aa" stroke-width="2" stroke-linecap="round"/>
+  <line x1="100" y1="80" x2="60" y2="50" stroke="#a1a1aa" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <line x1="100" y1="80" x2="140" y2="50" stroke="#a1a1aa" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <line x1="100" y1="80" x2="50" y2="80" stroke="#a1a1aa" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  <line x1="100" y1="80" x2="150" y2="80" stroke="#a1a1aa" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  <line x1="100" y1="80" x2="70" y2="105" stroke="#a1a1aa" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  <line x1="100" y1="80" x2="130" y2="105" stroke="#a1a1aa" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  
+  <!-- 茎 -->
+  <path d="M100 135 Q97 150 94 170" stroke="url(#stem)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- 水珠 -->
+  <circle cx="75" cy="65" r="5" fill="#d4d4d8" opacity="0.5"/>
+  <circle cx="73" cy="63" r="2" fill="#e4e4e7" opacity="0.7"/>
+</svg>

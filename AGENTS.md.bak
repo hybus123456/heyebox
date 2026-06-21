@@ -1,0 +1,53 @@
+# AGENTS.md
+
+## 项目
+荷叶box — 个人工具箱门户，不是博客、不是简历。
+调性：极简、科技感、克制。禁止花哨动效。
+本地优先，隐私保护，工具纯客户端运行。
+
+## 技术栈
+- Next.js（App Router，`app/` 目录）
+- TypeScript（严格模式）
+- Tailwind CSS（纯工具类，不用自定义 CSS）
+- pnpm
+
+## 开发命令
+pnpm dev          # 本地开发
+pnpm build        # 生产构建
+pnpm lint         # ESLint 检查
+pnpm typecheck    # TypeScript 类型检查
+
+## 架构
+- 工具放在 `src/tools/<工具名>/`，每个工具独立（组件 + 元数据 + 逻辑）
+- 工具元数据：名称、描述、分类、状态（稳定/测试版）
+- 分类：文本处理、图片媒体、加密校验、计算换算、开发辅助 — 用元数据标记，不按文件夹分
+- 工具详情：默认弹窗，复杂工具才用独立子路由
+- 共享组件放 `src/components/`
+
+## 样式规范
+- 只用 Tailwind，不用自定义 CSS（除非必要）
+- 配色：低饱和度、留白充足
+- 暗黑/浅色：用 `dark:` 类策略（next-themes）
+- 卡片：统一尺寸、圆角、阴影，网格布局
+- 导航：固定顶部栏 — Logo、导航链接、搜索、主题切换、GitHub
+- 首屏 Hero：标题 + 标语 + 两个按钮，背景纯色或微弱渐变
+
+## 页面结构
+/               # 首屏 Hero + 精选工具
+/tools          # 全部工具网格，按分类筛选
+/changelog      # 更新日志，时间倒序
+/about          # 关于、技术栈、隐私策略、开源状态
+/feedback       # 反馈入口
+
+## 页脚（必须包含）
+- 版权信息
+- 备案号（国内部署时）
+- 隐私说明链接
+- 作者 Bilibili：https://space.bilibili.com/2105587530
+
+## 命名规范
+- 组件：PascalCase
+- 工具函数/hooks：camelCase
+- 工具目录：kebab-case
+- 不加注释（除非被要求）
+- 不调用外部 API 收集用户数据
