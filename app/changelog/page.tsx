@@ -2,6 +2,16 @@ import { FadeIn, StaggerChildren } from "@/components/Animations";
 
 const changelog = [
   {
+    version: "1.2.0",
+    date: "2026-06-22",
+    changes: [
+      { type: "新增", description: "反馈管理后台（/admin）" },
+      { type: "新增", description: "后台密码登录验证" },
+      { type: "修复", description: "修复玻璃透明度调节功能" },
+      { type: "改进", description: "用户端不再显示他人反馈" },
+    ],
+  },
+  {
     version: "1.1.0",
     date: "2026-06-21",
     changes: [

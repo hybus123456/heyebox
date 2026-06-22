@@ -11,13 +11,19 @@ export function GlassSettings() {
     if (saved) {
       const val = parseInt(saved);
       setOpacity(val);
-      document.documentElement.style.setProperty("--glass-opacity", (val / 100).toString());
+      applyOpacity(val);
     }
   }, []);
 
+  const applyOpacity = (value: number) => {
+    document.documentElement.style.setProperty("--glass-opacity", `${value}%`);
+    document.documentElement.style.setProperty("--glass-bg-light", `rgba(255, 255, 255, ${value / 100})`);
+    document.documentElement.style.setProperty("--glass-bg-dark", `rgba(24, 24, 27, ${value / 100})`);
+  };
+
   const handleChange = (value: number) => {
     setOpacity(value);
-    document.documentElement.style.setProperty("--glass-opacity", (value / 100).toString());
+    applyOpacity(value);
     localStorage.setItem("glass-opacity", value.toString());
   };
 
@@ -25,7 +31,7 @@ export function GlassSettings() {
     <div className="fixed bottom-4 right-4 z-50">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="glass-card w-10 h-10 rounded-full flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+        className="w-10 h-10 rounded-full flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors bg-white/70 dark:bg-zinc-900/70 backdrop-blur-md border border-zinc-200/50 dark:border-zinc-700/50 shadow-lg"
         aria-label="玻璃效果设置"
       >
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -34,7 +40,7 @@ export function GlassSettings() {
       </button>
 
       {isOpen && (
-        <div className="absolute bottom-14 right-0 w-64 p-4 glass-strong rounded-xl">
+        <div className="absolute bottom-14 right-0 w-64 p-4 rounded-xl bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-zinc-200/50 dark:border-zinc-700/50 shadow-xl">
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
               玻璃透明度
@@ -50,7 +56,7 @@ export function GlassSettings() {
             max="95"
             value={opacity}
             onChange={(e) => handleChange(parseInt(e.target.value))}
-            className="w-full h-2 bg-zinc-200 dark:bg-zinc-700 rounded-full appearance-none cursor-pointer"
+            className="w-full h-2 bg-zinc-200 dark:bg-zinc-700 rounded-full appearance-none cursor-pointer accent-zinc-900 dark:accent-zinc-100"
           />
           
           <div className="flex justify-between mt-2 text-xs text-zinc-400">
@@ -60,7 +66,7 @@ export function GlassSettings() {
 
           <div className="mt-4 pt-3 border-t border-zinc-200/50 dark:border-zinc-700/50">
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              调整卡片和导航栏的玻璃效果透明度
+              调整卡片和导航栏的玻璃效果
             </p>
           </div>
         </div>
