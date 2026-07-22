@@ -203,6 +203,38 @@ export const tools: Tool[] = [
     status: "stable",
     icon: "🛡️",
   },
+  {
+    id: "image-to-base64",
+    name: "图片转Base64",
+    description: "图片转为Base64编码",
+    category: "图片媒体",
+    status: "stable",
+    icon: "🖼️",
+  },
+  {
+    id: "random-generator",
+    name: "随机数生成器",
+    description: "生成指定范围的随机数",
+    category: "计算换算",
+    status: "stable",
+    icon: "🎲",
+  },
+  {
+    id: "ip-lookup",
+    name: "IP查询",
+    description: "查询IP地址地理位置",
+    category: "开发辅助",
+    status: "stable",
+    icon: "🌐",
+  },
+  {
+    id: "crypto-tools",
+    name: "加密解密工具",
+    description: "支持摩斯密码、凯撒、维吉尼亚等多种加密",
+    category: "加密校验",
+    status: "stable",
+    icon: "🔐",
+  },
 ];
 
 export const categories = [
