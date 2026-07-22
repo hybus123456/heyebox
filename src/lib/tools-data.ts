@@ -2,15 +2,6 @@ import { Tool } from "@/components/ToolCard";
 
 export const tools: Tool[] = [
   {
-    id: "win10-activate",
-    name: "Win10 激活工具",
-    description: "Windows 10 系统激活工具",
-    category: "系统工具",
-    status: "stable",
-    icon: "💻",
-    downloadFile: "/downloads/win10-activate.rar",
-  },
-  {
     id: "bilibili-downloader",
     name: "B站视频下载器",
     description: "下载B站视频到本地MP4文件",

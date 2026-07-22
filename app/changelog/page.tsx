@@ -2,6 +2,13 @@ import { FadeIn, StaggerChildren } from "@/components/Animations";
 
 const changelog = [
   {
+    version: "1.2.2",
+    date: "2026-06-22",
+    changes: [
+      { type: "移除", description: "移除Windows激活工具（违法内容）" },
+    ],
+  },
+  {
     version: "1.2.0",
     date: "2026-06-22",
     changes: [
