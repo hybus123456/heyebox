@@ -30,6 +30,7 @@ import { ImageToBase64 } from "@/components/tools/ImageToBase64";
 import { RandomGenerator } from "@/components/tools/RandomGenerator";
 import { IpLookup } from "@/components/tools/IpLookup";
 import { CryptoTools } from "@/components/tools/CryptoTools";
+import { FileConverter } from "@/components/tools/FileConverter";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { FadeIn } from "@/components/Animations";
 
@@ -61,6 +62,7 @@ const toolComponents: Record<string, React.ComponentType> = {
   "random-generator": RandomGenerator,
   "ip-lookup": IpLookup,
   "crypto-tools": CryptoTools,
+  "file-converter": FileConverter,
 };
 
 export default function ToolPage() {

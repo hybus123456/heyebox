@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 interface Card {
   id: number;
@@ -9,29 +10,40 @@ interface Card {
   pairId: number;
   isFlipped: boolean;
   isMatched: boolean;
+  pos?: string;
 }
 
 const wordPairs = [
-  { en: "abandon", cn: "放弃" },
-  { en: "ability", cn: "能力" },
-  { en: "absorb", cn: "吸收" },
-  { en: "abstract", cn: "抽象的" },
-  { en: "abundant", cn: "丰富的" },
-  { en: "accelerate", cn: "加速" },
-  { en: "accurate", cn: "准确的" },
-  { en: "achieve", cn: "实现" },
-  { en: "acknowledge", cn: "承认" },
-  { en: "acquire", cn: "获得" },
-  { en: "adapt", cn: "适应" },
-  { en: "adequate", cn: "足够的" },
-  { en: "adjust", cn: "调整" },
-  { en: "admire", cn: "钦佩" },
-  { en: "admit", cn: "承认" },
-  { en: "adopt", cn: "采用" },
-  { en: "advance", cn: "前进" },
-  { en: "advantage", cn: "优势" },
-  { en: "advocate", cn: "提倡" },
-  { en: "affect", cn: "影响" },
+  { en: "abandon", cn: "放弃", pos: "v." },
+  { en: "ability", cn: "能力", pos: "n." },
+  { en: "absorb", cn: "吸收", pos: "v." },
+  { en: "abstract", cn: "抽象的", pos: "adj." },
+  { en: "abundant", cn: "丰富的", pos: "adj." },
+  { en: "accelerate", cn: "加速", pos: "v." },
+  { en: "accurate", cn: "准确的", pos: "adj." },
+  { en: "achieve", cn: "实现", pos: "v." },
+  { en: "acknowledge", cn: "承认", pos: "v." },
+  { en: "acquire", cn: "获得", pos: "v." },
+  { en: "adapt", cn: "适应", pos: "v." },
+  { en: "adequate", cn: "足够的", pos: "adj." },
+  { en: "adjust", cn: "调整", pos: "v." },
+  { en: "admire", cn: "钦佩", pos: "v." },
+  { en: "admit", cn: "承认", pos: "v." },
+  { en: "adopt", cn: "采用", pos: "v." },
+  { en: "advance", cn: "前进", pos: "v./n." },
+  { en: "advantage", cn: "优势", pos: "n." },
+  { en: "advocate", cn: "提倡", pos: "v." },
+  { en: "affect", cn: "影响", pos: "v." },
+  { en: "afford", cn: "负担得起", pos: "v." },
+  { en: "agency", cn: "机构", pos: "n." },
+  { en: "agenda", cn: "议程", pos: "n." },
+  { en: "aggressive", cn: "侵略的", pos: "adj." },
+  { en: "allocate", cn: "分配", pos: "v." },
+  { en: "alternative", cn: "替代的", pos: "adj./n." },
+  { en: "ambiguous", cn: "模棱两可的", pos: "adj." },
+  { en: "ambitious", cn: "有雄心的", pos: "adj." },
+  { en: "analogy", cn: "类比", pos: "n." },
+  { en: "analyze", cn: "分析", pos: "v." },
 ];
 
 function createCards(pairCount: number): Card[] {
@@ -47,6 +59,7 @@ function createCards(pairCount: number): Card[] {
       pairId: index,
       isFlipped: false,
       isMatched: false,
+      pos: pair.pos,
     });
     newCards.push({
       id: index * 2 + 1,
@@ -70,25 +83,16 @@ export default function WordMatchPage() {
   const [gameCompleted, setGameCompleted] = useState(false);
   const [timer, setTimer] = useState(0);
   const [pairCount, setPairCount] = useState(6);
-  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    if (!initialized) {
-      setCards(createCards(pairCount));
-      setFlippedCards([]);
-      setMoves(0);
-      setMatchedPairs(0);
-      setGameStarted(false);
-      setGameCompleted(false);
-      setTimer(0);
-      setInitialized(true);
-    }
-  }, [initialized, pairCount]);
-
-  const changePairCount = (newCount: number) => {
-    setPairCount(newCount);
-    setInitialized(false);
-  };
+    setCards(createCards(pairCount));
+    setFlippedCards([]);
+    setMoves(0);
+    setMatchedPairs(0);
+    setGameStarted(false);
+    setGameCompleted(false);
+    setTimer(0);
+  }, [pairCount]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -135,14 +139,12 @@ export default function WordMatchPage() {
               c.pairId === card1.pairId ? { ...c, isMatched: true } : c
             )
           );
-          setMatchedPairs((prev) => {
-            const newVal = prev + 1;
-            if (newVal === pairCount) {
-              setGameCompleted(true);
-            }
-            return newVal;
-          });
+          setMatchedPairs((prev) => prev + 1);
           setFlippedCards([]);
+
+          if (matchedPairs + 1 === pairCount) {
+            setGameCompleted(true);
+          }
         }, 500);
       } else {
         setTimeout(() => {
@@ -161,6 +163,15 @@ export default function WordMatchPage() {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const getPosColor = (pos?: string) => {
+    if (!pos) return "";
+    if (pos.includes("n.")) return "text-blue-500";
+    if (pos.includes("v.")) return "text-green-500";
+    if (pos.includes("adj.")) return "text-purple-500";
+    if (pos.includes("adv.")) return "text-orange-500";
+    return "text-zinc-400";
   };
 
   return (
@@ -189,7 +200,7 @@ export default function WordMatchPage() {
           </span>
           <select
             value={pairCount}
-            onChange={(e) => changePairCount(Number(e.target.value))}
+            onChange={(e) => setPairCount(Number(e.target.value))}
             className="px-2 py-1 text-sm rounded border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
           >
             <option value={4}>4对</option>
@@ -223,7 +234,7 @@ export default function WordMatchPage() {
             key={card.id}
             onClick={() => handleCardClick(card.id)}
             disabled={card.isFlipped || card.isMatched}
-            className={`aspect-square rounded-xl text-lg font-medium transition-all duration-300 ${
+            className={`aspect-square rounded-xl text-lg font-medium transition-all duration-300 flex flex-col items-center justify-center ${
               card.isMatched
                 ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-2 border-emerald-300 dark:border-emerald-700"
                 : card.isFlipped
@@ -231,9 +242,35 @@ export default function WordMatchPage() {
                 : "bg-zinc-200 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-300 dark:hover:bg-zinc-600"
             }`}
           >
-            {card.isFlipped || card.isMatched ? card.content : "?"}
+            {card.isFlipped || card.isMatched ? (
+              <>
+                <span>{card.content}</span>
+                {card.type === "en" && card.pos && (
+                  <span className={`text-xs mt-1 ${getPosColor(card.pos)}`}>
+                    {card.pos}
+                  </span>
+                )}
+              </>
+            ) : (
+              "?"
+            )}
           </button>
         ))}
+      </div>
+
+      <div className="mt-6 flex justify-center gap-4 text-xs text-zinc-400">
+        <span className="flex items-center gap-1">
+          <span className="w-3 h-3 rounded bg-blue-500"></span> n. 名词
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="w-3 h-3 rounded bg-green-500"></span> v. 动词
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="w-3 h-3 rounded bg-purple-500"></span> adj. 形容词
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="w-3 h-3 rounded bg-orange-500"></span> adv. 副词
+        </span>
       </div>
     </div>
   );

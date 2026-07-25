@@ -2,6 +2,15 @@ import { FadeIn, StaggerChildren } from "@/components/Animations";
 
 const changelog = [
   {
+    version: "1.4.0",
+    date: "2026-07-22",
+    changes: [
+      { type: "新增", description: "文件格式转换工具（PDF/Word/Excel/PPT互转）" },
+      { type: "新增", description: "单词配对游戏添加词性显示（n./v./adj./adv.）" },
+      { type: "改进", description: "新增文件处理工具分类" },
+    ],
+  },
+  {
     version: "1.3.0",
     date: "2026-07-22",
     changes: [

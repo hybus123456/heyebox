@@ -235,6 +235,14 @@ export const tools: Tool[] = [
     status: "stable",
     icon: "🔐",
   },
+  {
+    id: "file-converter",
+    name: "文件格式转换",
+    description: "PDF/Word/Excel/PPT等格式互转",
+    category: "文件处理",
+    status: "stable",
+    icon: "📁",
+  },
 ];
 
 export const categories = [
@@ -245,5 +253,5 @@ export const categories = [
   "加密校验",
   "计算换算",
   "开发辅助",
-  "系统工具",
+  "文件处理",
 ];

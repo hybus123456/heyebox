@@ -93,7 +93,8 @@ export default function TypingTestPage() {
   // eslint-disable-next-line react-hooks/purity
   const getElapsedTime = () => {
     if (!startTime) return 0;
-    return Math.round(((endTime || Date.now()) - startTime) / 1000);
+    const now = endTime || Date.now();
+    return Math.round((now - startTime) / 1000);
   };
 
   return (
