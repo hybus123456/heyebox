@@ -2,6 +2,21 @@ import { FadeIn, StaggerChildren } from "@/components/Animations";
 
 const changelog = [
   {
+    version: "1.4.2",
+    date: "2026-07-22",
+    changes: [
+      { type: "新增", description: "页脚公示备案号 BA20260712152" },
+    ],
+  },
+  {
+    version: "1.4.1",
+    date: "2026-07-22",
+    changes: [
+      { type: "修复", description: "修复单词拼写游戏翻译显示问题" },
+      { type: "改进", description: "有翻译显示中文+英文，无翻译显示'请拼写: 单词'" },
+    ],
+  },
+  {
     version: "1.4.0",
     date: "2026-07-22",
     changes: [

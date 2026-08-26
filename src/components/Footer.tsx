@@ -92,6 +92,16 @@ export function Footer() {
               保护您的隐私
             </div>
           </div>
+          <div className="mt-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-800/60 text-center">
+            <a
+              href="https://beian.miit.gov.cn/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-400 transition-colors"
+            >
+              备案号：BA20260712152
+            </a>
+          </div>
         </div>
       </div>
     </footer>

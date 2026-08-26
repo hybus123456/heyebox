@@ -243,7 +243,8 @@ export default function SpellingBeePage() {
   const startTimeRef = useRef(0);
 
   const loadWordInfo = async (word: string) => {
-    setCurrentTranslation(wordTranslations[word.toLowerCase()] || "请拼写以下单词");
+    const translation = wordTranslations[word.toLowerCase()];
+    setCurrentTranslation(translation ? `${translation} (${word})` : `请拼写: ${word}`);
     setCurrentPhonetic("");
     
     try {
