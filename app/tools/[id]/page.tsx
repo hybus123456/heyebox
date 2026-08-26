@@ -31,6 +31,7 @@ import { RandomGenerator } from "@/components/tools/RandomGenerator";
 import { IpLookup } from "@/components/tools/IpLookup";
 import { CryptoTools } from "@/components/tools/CryptoTools";
 import { FileConverter } from "@/components/tools/FileConverter";
+import { VideoProcessor } from "@/components/tools/VideoProcessor";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { FadeIn } from "@/components/Animations";
 
@@ -63,6 +64,7 @@ const toolComponents: Record<string, React.ComponentType> = {
   "ip-lookup": IpLookup,
   "crypto-tools": CryptoTools,
   "file-converter": FileConverter,
+  "video-processor": VideoProcessor,
 };
 
 export default function ToolPage() {

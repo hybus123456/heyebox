@@ -243,6 +243,14 @@ export const tools: Tool[] = [
     status: "stable",
     icon: "📁",
   },
+  {
+    id: "video-processor",
+    name: "在线视频处理",
+    description: "视频格式转换、压缩、剪辑、滤镜",
+    category: "影音工具",
+    status: "beta",
+    icon: "🎬",
+  },
 ];
 
 export const categories = [

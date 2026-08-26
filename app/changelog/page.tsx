@@ -2,6 +2,19 @@ import { FadeIn, StaggerChildren } from "@/components/Animations";
 
 const changelog = [
   {
+    version: "1.5.0",
+    date: "2026-07-22",
+    changes: [
+      { type: "新增", description: "在线视频处理工具（ffmpeg.wasm纯本地）" },
+      { type: "新增", description: "视频格式转换（MP4/WebM/AVI/MKV/MOV）" },
+      { type: "新增", description: "视频压缩（码率/分辨率调整）" },
+      { type: "新增", description: "在线剪辑（时间点截取+帧预览）" },
+      { type: "新增", description: "10种视频滤镜（黑白/复古/暖色/冷色等）" },
+      { type: "新增", description: "提取音频（MP3/WAV/AAC）" },
+      { type: "新增", description: "提取GIF（帧率/宽度可调）" },
+    ],
+  },
+  {
     version: "1.4.2",
     date: "2026-07-22",
     changes: [

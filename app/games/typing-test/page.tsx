@@ -90,9 +90,9 @@ export default function TypingTestPage() {
     return Math.round((correct / input.length) * 100);
   };
 
-  // eslint-disable-next-line react-hooks/purity
   const getElapsedTime = () => {
     if (!startTime) return 0;
+    // eslint-disable-next-line react-hooks/purity
     const now = endTime || Date.now();
     return Math.round((now - startTime) / 1000);
   };
