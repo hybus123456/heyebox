@@ -51,7 +51,10 @@ console.log(hello);
       .replace(/`(.*?)`/g, '<code>$1</code>')
       .replace(/^\- (.*$)/gim, '<li>$1</li>')
       .replace(/^\&gt; (.*$)/gim, '<blockquote>$1</blockquote>')
-      .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>')
+      .replace(/\[(.*?)\]\((.*?)\)/g, (_, label: string, href: string) => {
+        const safeHref = /^(https?:\/\/|\/|#|\.)/i.test(href) ? href : "#";
+        return `<a href="${safeHref}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+      })
       .replace(/\n/g, '<br />');
 
     processed = processed.replace(/__CODE_BLOCK_(\d+)__/g, (_, index) => {

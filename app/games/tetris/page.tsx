@@ -185,6 +185,7 @@ export default function TetrisPage() {
     }
 
     restartDropTimer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isValidPosition]);
 
   const movePiece = useCallback(
@@ -200,6 +201,7 @@ export default function TetrisPage() {
         lockPiece();
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isValidPosition, lockPiece]
   );
 

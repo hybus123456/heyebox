@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { createVerificationCode } from "@/lib/db";
 import { sendVerificationCode } from "@/lib/email";
-import { verifyCaptchaToken } from "@/lib/captcha";
+import { verifyPassToken } from "@/lib/captcha-store";
+import { rateLimit, getClientKey } from "@/lib/rate-limit";
 
 function generateCode(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -16,12 +17,20 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { email, captchaToken } = body;
 
+    if (!rateLimit(getClientKey(request, "send-code"), 10, 60 * 60 * 1000)) {
+      return NextResponse.json({ error: "请求过于频繁，请稍后再试" }, { status: 429 });
+    }
+
     if (!email || !isValidEmail(email)) {
       return NextResponse.json({ error: "请输入有效的邮箱地址" }, { status: 400 });
     }
 
+    if (!rateLimit(`send-email:${email.toLowerCase()}`, 5, 60 * 60 * 1000)) {
+      return NextResponse.json({ error: "该邮箱请求过于频繁，请稍后再试" }, { status: 429 });
+    }
+
     // Verify captcha
-    if (!captchaToken || !verifyCaptchaToken(captchaToken)) {
+    if (!captchaToken || !verifyPassToken(captchaToken)) {
       return NextResponse.json({ error: "请完成验证码" }, { status: 400 });
     }
 

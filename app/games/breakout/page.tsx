@@ -73,31 +73,6 @@ export default function BreakoutPage() {
     return bricks;
   }, []);
 
-  const startGame = useCallback(() => {
-    setScreen("game");
-    setScore(0);
-    setLives(3);
-    setLevel(1);
-    scoreRef.current = 0;
-    livesRef.current = 3;
-    levelRef.current = 1;
-    gameOverRef.current = false;
-    paddleRef.current = { x: 400, y: 570, width: 100, height: 12 };
-    bricksRef.current = initBricks();
-    dropsRef.current = [];
-    ballsRef.current = [{ x: 400, y: 540, vx: 3, vy: -4, radius: 7 }];
-
-    cancelAnimationFrame(rafRef.current);
-    const loop = () => {
-      update();
-      draw();
-      if (!gameOverRef.current) {
-        rafRef.current = requestAnimationFrame(loop);
-      }
-    };
-    loop();
-  }, [initBricks]);
-
   const endGame = useCallback(() => {
     if (gameOverRef.current) return;
     gameOverRef.current = true;
@@ -249,6 +224,31 @@ export default function BreakoutPage() {
       ctx.fillRect(drop.x - 8, drop.y - 8, 16, 16);
     }
   }, []);
+
+  const startGame = useCallback(() => {
+    setScreen("game");
+    setScore(0);
+    setLives(3);
+    setLevel(1);
+    scoreRef.current = 0;
+    livesRef.current = 3;
+    levelRef.current = 1;
+    gameOverRef.current = false;
+    paddleRef.current = { x: 400, y: 570, width: 100, height: 12 };
+    bricksRef.current = initBricks();
+    dropsRef.current = [];
+    ballsRef.current = [{ x: 400, y: 540, vx: 3, vy: -4, radius: 7 }];
+
+    cancelAnimationFrame(rafRef.current);
+    const loop = () => {
+      update();
+      draw();
+      if (!gameOverRef.current) {
+        rafRef.current = requestAnimationFrame(loop);
+      }
+    };
+    loop();
+  }, [initBricks, update, draw]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

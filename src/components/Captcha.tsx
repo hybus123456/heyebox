@@ -1,69 +1,31 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { generateCaptchaToken } from "@/lib/captcha";
-
-interface CaptchaChallenge {
-  question: string;
-  answer: number;
-  token: string;
-}
-
-function generateChallenge(): CaptchaChallenge {
-  const ops = ["+", "-", "×"];
-  const op = ops[Math.floor(Math.random() * ops.length)];
-  
-  let answer: number;
-  let question: string;
-  
-  switch (op) {
-    case "+": {
-      const a = Math.floor(Math.random() * 20) + 1;
-      const b = Math.floor(Math.random() * 20) + 1;
-      answer = a + b;
-      question = `${a} + ${b}`;
-      break;
-    }
-    case "-": {
-      const a = Math.floor(Math.random() * 20) + 10;
-      const b = Math.floor(Math.random() * 10) + 1;
-      answer = a - b;
-      question = `${a} - ${b}`;
-      break;
-    }
-    case "×": {
-      const a = Math.floor(Math.random() * 10) + 1;
-      const b = Math.floor(Math.random() * 10) + 1;
-      answer = a * b;
-      question = `${a} × ${b}`;
-      break;
-    }
-    default: {
-      const a = Math.floor(Math.random() * 20) + 1;
-      const b = Math.floor(Math.random() * 20) + 1;
-      answer = a + b;
-      question = `${a} + ${b}`;
-    }
-  }
-  
-  const token = generateCaptchaToken(answer);
-  
-  return { question, answer, token };
-}
 
 interface CaptchaProps {
-  onVerify: (verified: boolean, token?: string) => void;
+  onVerify: (verified: boolean, captchaId?: string) => void;
   className?: string;
 }
 
 export function Captcha({ onVerify, className = "" }: CaptchaProps) {
-  const [challenge, setChallenge] = useState<CaptchaChallenge | null>(null);
+  const [captchaId, setCaptchaId] = useState("");
+  const [question, setQuestion] = useState("");
   const [userAnswer, setUserAnswer] = useState("");
   const [verified, setVerified] = useState(false);
   const [error, setError] = useState(false);
+  const [checking, setChecking] = useState(false);
 
-  const refresh = useCallback(() => {
-    setChallenge(generateChallenge());
+  const refresh = useCallback(async () => {
+    try {
+      const response = await fetch("/api/captcha");
+      if (response.ok) {
+        const data = await response.json();
+        setCaptchaId(data.id);
+        setQuestion(data.question);
+      }
+    } catch {
+      setQuestion("");
+    }
     setUserAnswer("");
     setVerified(false);
     setError(false);
@@ -74,19 +36,33 @@ export function Captcha({ onVerify, className = "" }: CaptchaProps) {
     refresh();
   }, [refresh]);
 
-  const handleVerify = () => {
-    if (!challenge) return;
-    
-    const numAnswer = parseInt(userAnswer);
-    if (numAnswer === challenge.answer) {
-      setVerified(true);
-      setError(false);
-      onVerify(true, challenge.token);
-    } else {
+  const handleVerify = async () => {
+    if (!captchaId || !userAnswer || checking) return;
+    setChecking(true);
+
+    try {
+      const response = await fetch("/api/captcha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: captchaId, answer: Number(userAnswer) }),
+      });
+
+      const data = await response.json();
+      if (data.valid && data.passToken) {
+        setVerified(true);
+        setError(false);
+        onVerify(true, data.passToken);
+      } else {
+        setError(true);
+        setVerified(false);
+        onVerify(false);
+        setTimeout(refresh, 1200);
+      }
+    } catch {
       setError(true);
-      setVerified(false);
       onVerify(false);
-      setTimeout(refresh, 1500);
+    } finally {
+      setChecking(false);
     }
   };
 
@@ -96,13 +72,22 @@ export function Captcha({ onVerify, className = "" }: CaptchaProps) {
     }
   };
 
-  if (!challenge) return null;
+  if (!question) {
+    return (
+      <div className="flex items-center gap-2 text-sm text-zinc-400">
+        验证码加载中...
+        <button type="button" onClick={refresh} className="underline hover:text-zinc-600">
+          重试
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       <div className="flex items-center gap-2">
         <div className="px-3 py-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg font-mono text-sm text-zinc-900 dark:text-zinc-100 select-none">
-          {challenge.question} = ?
+          {question} = ?
         </div>
         <button
           type="button"
@@ -115,7 +100,7 @@ export function Captcha({ onVerify, className = "" }: CaptchaProps) {
           </svg>
         </button>
       </div>
-      
+
       <div className="flex items-center gap-2">
         <input
           type="number"
@@ -135,18 +120,18 @@ export function Captcha({ onVerify, className = "" }: CaptchaProps) {
           placeholder="?"
           disabled={verified}
         />
-        
+
         {!verified && (
           <button
             type="button"
             onClick={handleVerify}
-            disabled={!userAnswer}
+            disabled={!userAnswer || checking}
             className="px-3 py-2 text-sm font-medium text-white bg-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            验证
+            {checking ? "验证中" : "验证"}
           </button>
         )}
-        
+
         {verified && (
           <span className="text-green-500">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

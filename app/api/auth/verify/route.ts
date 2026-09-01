@@ -1,14 +1,23 @@
 import { NextResponse } from "next/server";
 import { verifyCode, getUserByEmail, createUser } from "@/lib/db";
 import { cookies } from "next/headers";
+import { rateLimit, getClientKey } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { email, code, name } = body;
 
+    if (!rateLimit(getClientKey(request, "verify"), 20, 10 * 60 * 1000)) {
+      return NextResponse.json({ error: "尝试次数过多，请稍后再试" }, { status: 429 });
+    }
+
     if (!email || !code) {
       return NextResponse.json({ error: "缺少必要参数" }, { status: 400 });
+    }
+
+    if (typeof code !== "string" || !/^\d{6}$/.test(code)) {
+      return NextResponse.json({ error: "验证码格式错误" }, { status: 400 });
     }
 
     const isValid = await verifyCode(email, code);

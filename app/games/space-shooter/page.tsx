@@ -45,47 +45,7 @@ export default function SpaceShooterPage() {
   const gameOverRef = useRef(false);
   const rafRef = useRef<number>(0);
   const spawnTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const shootTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastShotRef = useRef(0);
-
-  const startGame = useCallback(() => {
-    setScreen("game");
-    setScore(0);
-    setLives(3);
-    setLevel(1);
-    scoreRef.current = 0;
-    livesRef.current = 3;
-    levelRef.current = 1;
-    shieldRef.current = false;
-    tripleRef.current = false;
-    gameOverRef.current = false;
-    playerRef.current = { x: 400, y: 550, width: 40, height: 40 };
-    bulletsRef.current = [];
-    enemiesRef.current = [];
-    powerUpsRef.current = [];
-    lastShotRef.current = 0;
-
-    if (spawnTimerRef.current) clearInterval(spawnTimerRef.current);
-    spawnTimerRef.current = setInterval(spawnEnemy, 900);
-
-    cancelAnimationFrame(rafRef.current);
-    const loop = () => {
-      update();
-      draw();
-      if (!gameOverRef.current) {
-        rafRef.current = requestAnimationFrame(loop);
-      }
-    };
-    loop();
-  }, []);
-
-  const endGame = useCallback(() => {
-    if (gameOverRef.current) return;
-    gameOverRef.current = true;
-    if (spawnTimerRef.current) clearInterval(spawnTimerRef.current);
-    cancelAnimationFrame(rafRef.current);
-    setScreen("result");
-  }, []);
 
   const spawnEnemy = useCallback(() => {
     if (gameOverRef.current) return;
@@ -121,6 +81,14 @@ export default function SpaceShooterPage() {
       height,
       vy,
     });
+  }, []);
+
+  const endGame = useCallback(() => {
+    if (gameOverRef.current) return;
+    gameOverRef.current = true;
+    if (spawnTimerRef.current) clearInterval(spawnTimerRef.current);
+    cancelAnimationFrame(rafRef.current);
+    setScreen("result");
   }, []);
 
   const shoot = useCallback(() => {
@@ -317,6 +285,37 @@ export default function SpaceShooterPage() {
       ctx.fillRect(powerUp.x - 8, powerUp.y - 8, 16, 16);
     }
   }, []);
+
+  const startGame = useCallback(() => {
+    setScreen("game");
+    setScore(0);
+    setLives(3);
+    setLevel(1);
+    scoreRef.current = 0;
+    livesRef.current = 3;
+    levelRef.current = 1;
+    shieldRef.current = false;
+    tripleRef.current = false;
+    gameOverRef.current = false;
+    playerRef.current = { x: 400, y: 550, width: 40, height: 40 };
+    bulletsRef.current = [];
+    enemiesRef.current = [];
+    powerUpsRef.current = [];
+    lastShotRef.current = 0;
+
+    if (spawnTimerRef.current) clearInterval(spawnTimerRef.current);
+    spawnTimerRef.current = setInterval(spawnEnemy, 900);
+
+    cancelAnimationFrame(rafRef.current);
+    const loop = () => {
+      update();
+      draw();
+      if (!gameOverRef.current) {
+        rafRef.current = requestAnimationFrame(loop);
+      }
+    };
+    loop();
+  }, [spawnEnemy, update, draw]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

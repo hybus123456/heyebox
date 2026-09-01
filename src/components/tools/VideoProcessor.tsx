@@ -61,7 +61,7 @@ export function VideoProcessor() {
 
     try {
       const { FFmpeg } = await import("@ffmpeg/ffmpeg");
-      const { fetchFile, toBlobURL } = await import("@ffmpeg/util");
+      const { toBlobURL } = await import("@ffmpeg/util");
       const ffmpeg = new FFmpeg();
 
       ffmpeg.on("progress", ({ progress: p }) => {
@@ -163,7 +163,6 @@ export function VideoProcessor() {
   };
 
   const handleCompress = () => {
-    const fmt = videoFormats.find((f) => f.id === format) || videoFormats[0];
     const crf = quality;
     const args = [
       "-i", "input.mp4",
@@ -434,6 +433,7 @@ export function VideoProcessor() {
             </div>
             {framePreview && (
               <div className="mt-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={framePreview} alt="帧预览" className="w-full rounded-xl border border-zinc-200 dark:border-zinc-700" />
               </div>
             )}
@@ -483,6 +483,7 @@ export function VideoProcessor() {
             </button>
             {framePreview && (
               <div className="mt-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={framePreview} alt="滤镜预览" className="w-full rounded-xl border border-zinc-200 dark:border-zinc-700" />
               </div>
             )}

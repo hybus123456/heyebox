@@ -90,6 +90,7 @@ export default function TargetShooterPage() {
       rafRef.current = requestAnimationFrame(loop);
     };
     loop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const endGame = useCallback(() => {

@@ -77,6 +77,7 @@ export function ImageToBase64() {
           <div>
             <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">预览</label>
             <div className="rounded-xl border border-zinc-200 dark:border-zinc-700 overflow-hidden bg-zinc-50 dark:bg-zinc-900 p-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={preview} alt="Preview" className="max-w-full max-h-48 mx-auto" />
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-zinc-500">

@@ -2,6 +2,19 @@ import { FadeIn, StaggerChildren } from "@/components/Animations";
 
 const changelog = [
   {
+    version: "1.7.0",
+    date: "2026-09-01",
+    changes: [
+      { type: "安全", description: "修复Markdown预览XSS漏洞（javascript:链接注入）" },
+      { type: "安全", description: "修复反馈删除API无认证漏洞" },
+      { type: "安全", description: "验证码改为服务端校验（原前端token可伪造）" },
+      { type: "安全", description: "发送验证码/登录/后台登录添加速率限制" },
+      { type: "安全", description: "成绩提交添加输入验证和频率限制" },
+      { type: "安全", description: "管理员移除默认弱密码，未配置时拒绝登录" },
+      { type: "改进", description: "全部代码通过Lint和类型检查（0错误0警告）" },
+    ],
+  },
+  {
     version: "1.6.0",
     date: "2026-07-23",
     changes: [

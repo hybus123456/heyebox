@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAllFeedbacks, addFeedback } from "@/lib/db";
-import { verifyCaptchaToken } from "@/lib/captcha";
+import { verifyPassToken } from "@/lib/captcha-store";
 
 function sanitizeInput(input: string): string {
   return input
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     }
 
     // Verify captcha
-    if (!captchaToken || !verifyCaptchaToken(captchaToken)) {
+    if (!captchaToken || !verifyPassToken(captchaToken)) {
       return NextResponse.json({ error: "请完成验证码" }, { status: 400 });
     }
 

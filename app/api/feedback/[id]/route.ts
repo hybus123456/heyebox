@@ -1,11 +1,17 @@
 import { NextResponse } from "next/server";
 import { deleteFeedback } from "@/lib/db";
+import { cookies } from "next/headers";
 
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const cookieStore = await cookies();
+    if (cookieStore.get("admin_token")?.value !== "authenticated") {
+      return NextResponse.json({ error: "未授权" }, { status: 401 });
+    }
+
     const { id } = await params;
     const feedbackId = parseInt(id, 10);
 

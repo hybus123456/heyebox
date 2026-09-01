@@ -179,7 +179,7 @@ export function FileConverter() {
     const doc = new jsPDF();
     let y = 10;
     
-    data.forEach((row: string[], rowIndex: number) => {
+    data.forEach((row: string[]) => {
       if (y > 280) {
         doc.addPage();
         y = 10;

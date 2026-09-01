@@ -6,6 +6,12 @@ export function GlassSettings() {
   const [opacity, setOpacity] = useState(70);
   const [isOpen, setIsOpen] = useState(false);
 
+  const applyOpacity = (value: number) => {
+    document.documentElement.style.setProperty("--glass-opacity", `${value}%`);
+    document.documentElement.style.setProperty("--glass-bg-light", `rgba(255, 255, 255, ${value / 100})`);
+    document.documentElement.style.setProperty("--glass-bg-dark", `rgba(24, 24, 27, ${value / 100})`);
+  };
+
   useEffect(() => {
     const saved = localStorage.getItem("glass-opacity");
     if (saved) {
@@ -14,12 +20,6 @@ export function GlassSettings() {
       applyOpacity(val);
     }
   }, []);
-
-  const applyOpacity = (value: number) => {
-    document.documentElement.style.setProperty("--glass-opacity", `${value}%`);
-    document.documentElement.style.setProperty("--glass-bg-light", `rgba(255, 255, 255, ${value / 100})`);
-    document.documentElement.style.setProperty("--glass-bg-dark", `rgba(24, 24, 27, ${value / 100})`);
-  };
 
   const handleChange = (value: number) => {
     setOpacity(value);
