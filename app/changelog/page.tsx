@@ -2,6 +2,18 @@ import { FadeIn, StaggerChildren } from "@/components/Animations";
 
 const changelog = [
   {
+    version: "1.6.0",
+    date: "2026-07-23",
+    changes: [
+      { type: "新增", description: "打靶射击游戏（FPS体验，环数+连击计分）" },
+      { type: "新增", description: "太空射击游戏（敌机/道具/Boss战）" },
+      { type: "新增", description: "打砖块游戏（道具/多球/关卡）" },
+      { type: "新增", description: "俄罗斯方块游戏（WASD双套按键）" },
+      { type: "新增", description: "新增射击游戏分类" },
+      { type: "改进", description: "游戏总数达到16个" },
+    ],
+  },
+  {
     version: "1.5.0",
     date: "2026-07-22",
     changes: [
